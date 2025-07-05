@@ -91,3 +91,63 @@ class DBStorage : public Persistence{
         // Logic/Query
     }
 };
+
+class DocumentEditor{
+    private:
+    Document *document;
+    Persistence *storage;
+    string renderedDocument;
+
+    public:
+
+    DocumentEditor(Document *document,Persistence *storage){
+        this->document = document;
+        this->storage = storage;
+    }
+
+    void addText(string text){
+        document->addElement(new TextElement(text));
+    }
+
+    void addImage(string image){
+        document->addElement(new ImageElement(image));
+    }
+
+    void addTab(){
+        document->addElement(new TabElement());
+    }
+
+    void addNewLine(){
+        document->addElement(new NewLineElement());
+    }
+
+    string renderDocument(){
+        if(renderedDocument.empty()){
+            renderedDocument = document->render();
+        }
+        return renderedDocument;
+    }
+
+    void saveDocument(){
+        storage->save(renderDocument());
+    }
+};
+
+int main(){
+
+    Document *document = new Document();
+    Persistence *persistence = new FileStorage();
+    DocumentEditor *documentEditor  = new DocumentEditor(document,persistence);
+
+    documentEditor->addText("Hello, world!");
+    documentEditor->addNewLine();
+    documentEditor->addText("This is a real-world document documentEditor example.");
+    documentEditor->addNewLine();
+    documentEditor->addTab();
+    documentEditor->addText("Indented text after a tab space.");
+    documentEditor->addNewLine();
+    documentEditor->addImage("picture.jpg");
+
+    return 0;
+    
+}
