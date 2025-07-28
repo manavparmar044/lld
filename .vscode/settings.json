@@ -3,6 +3,7 @@
         "*.ejs": "html",
         "__locale": "cpp",
         "ios": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "new": "cpp"
     }
 }
